@@ -4,7 +4,6 @@ import { useContractExistsAtAddress, useContractLoader } from "eth-hooks";
 import Account from "../Account";
 import DisplayVariable from "./DisplayVariable";
 import FunctionForm from "./FunctionForm";
-import Address from "../Address";
 
 const noContractDisplay = (
   <div>
@@ -71,8 +70,8 @@ export default function Contract({
   const displayedContractFunctions = useMemo(() => {
     const results = contract
       ? Object.entries(contract.interface.functions).filter(
-          fn => fn[1]["type"] === "function" && !(show && show.indexOf(fn[1]["name"]) < 0),
-        )
+        fn => fn[1]["type"] === "function" && !(show && show.indexOf(fn[1]["name"]) < 0),
+      )
       : [];
     return results;
   }, [contract, show]);
@@ -94,7 +93,6 @@ export default function Contract({
             functionInfo={contractFuncInfo[1]}
             refreshRequired={refreshRequired}
             triggerRefresh={triggerRefresh}
-            blockExplorer={blockExplorer}
           />
         );
       }
@@ -118,10 +116,18 @@ export default function Contract({
     <div style={{ margin: "auto", width: "70vw" }}>
       <Card
         title={
-          <div style={{fontSize:24}}>
+          <div>
             {name}
             <div style={{ float: "right" }}>
-              <Address value={address}/>
+              <Account
+                address={address}
+                localProvider={provider}
+                injectedProvider={provider}
+                mainnetProvider={provider}
+                price={price}
+                blockExplorer={blockExplorer}
+              />
+              {account}
             </div>
           </div>
         }

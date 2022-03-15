@@ -1,25 +1,22 @@
-import Fortmatic from "fortmatic";
+import WalletConnectProvider from "@walletconnect/web3-provider";
 import WalletLink from "walletlink";
 import Web3Modal from "web3modal";
 import Portis from "@portis/web3";
-import WalletConnectProvider from "@walletconnect/web3-provider";
 import Authereum from "authereum";
-import { INFURA_ID, ALCHEMY_KEY } from "../constants";
+import Fortmatic from "fortmatic";
 
-// Coinbase walletLink init
-const walletLink = new WalletLink({
-  appName: "coinbase",
-});
+import { INFURA_ID, NETWORK, NETWORKS, ALCHEMY_KEY } from "../constants";
 
-// WalletLink provider
-const walletLinkProvider = walletLink.makeWeb3Provider(`https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`, 1);
+export default function setupWeb3Modal() {
+  // Coinbase walletLink init
+  const walletLink = new WalletLink({
+    appName: "coinbase",
+  });
 
-// Portis ID: 6255fb2b-58c8-433b-a2c9-62098c05ddc9
-/*
-  Web3 modal helps us "connect" external wallets:
-*/
-const web3ModalSetup = () =>
-  new Web3Modal({
+  // WalletLink provider
+  const walletLinkProvider = walletLink.makeWeb3Provider(`https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}`, 1);
+
+  const web3Modal = new Web3Modal({
     network: "mainnet", // Optional. If using WalletConnect on xDai, change network to "xdai" and add RPC info below for xDai chain.
     cacheProvider: true, // optional
     theme: "light", // optional. Change to "dark" for a dark theme.
@@ -84,4 +81,5 @@ const web3ModalSetup = () =>
     },
   });
 
-export default web3ModalSetup;
+  return web3Modal;
+}
